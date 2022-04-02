@@ -41,7 +41,7 @@ def incrementer():
 @app.route('/subscribtion/', methods=['GET', 'POST'])
 def get_subscribtion_from_firm():
     """
-    This request gets name of the firm from json and return json file with subscribtion types
+    This request gets name of the firm from json and return json file with subscription types
 
     """
     subscribition_json = request.get_json()
@@ -61,6 +61,7 @@ def check_authentication():
     # search users database for key login and check correctness of password
     # Authenticate_User_Password
     return "Possible subscribtion"
+
 
 @app.route('/get_subscriptions/', methods=['GET', 'POST'])
 def get_user_subscribtions():
@@ -85,6 +86,28 @@ def get_user_subscribtions():
         list_of_user_services.append(service_dict)
 
     return {"lista": list_of_user_services}
+
+@app.route('/add_sub/', methods=['GET', 'POST'])
+def add_subscriprtion():
+    """
+    Function return True or False, depends on login and password is stored in database
+    :return:
+    json: #TODO specify
+    """
+    global db
+    subscribed_services = db['subscribed_services']
+    user_data = request.get_json()
+    services_array = subscribed_services.find_one({"email": user_data["email"]})['services']
+    print(services_array)
+    services_array = services_array + user_data["services"]
+    print("Started adding: ", services_array, "for: ", user_data["email"])
+    db["subscribed_services"].update_one(
+        {"email": str(user_data["email"])},
+        {"$set": {"services": services_array}}
+    )
+    print("Finished adding")
+    return "Subscription addded"
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=105)

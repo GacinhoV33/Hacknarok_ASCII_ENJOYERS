@@ -18,10 +18,12 @@ db = get_database()
 
 def get_user_subscribtions():
     users = db["users"]
-    users_details = collection.find()
+    users_details = users.find()
     df = pd.DataFrame(users_details)
     print(df.head())
     # for user in users_details:
     #     print(user["email"])
 
 get_user_subscribtions()
+
+
