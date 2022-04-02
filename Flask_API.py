@@ -8,6 +8,7 @@ from flask import request
 from pymongo import MongoClient
 import pymongo as pm
 
+import pandas as pd
 
 def get_database():
 
@@ -61,6 +62,29 @@ def check_authentication():
     # Authenticate_User_Password
     return "Possible subscribtion"
 
+@app.route('/get_subscriptions/', methods=['GET', 'POST'])
+def get_user_subscribtions():
+    user_email = request.get_json()["email"]
+    user_services_collection = db["subscribed_services"]
+    users_details = user_services_collection.find_one({"email": user_email})["services"]
+    # user_services = pd.DataFrame(users_details)
+    # user_services = user_services[user_services["email"] == user_email]["services"]
+    # print("USER SERVICES KURWA")
+    # print(user_services.head())
+    list_of_user_services = list()
+
+    for i, service in enumerate(users_details):
+
+        service_dict = dict()
+        service_dict["id"] = i
+        service_dict["company"] = service["name"]
+        service_dict["amount"] = service["price"]
+        service_dict["period"] = db["plans_descriptions"].find_one({"name": service["subs_model"]})["payment_interval"]
+        service_dict["link"] = db["available_services"].find_one({"name": service["name"]})["link"]
+        
+        list_of_user_services.append(service_dict)
+
+    return {"lista": list_of_user_services}
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=105)

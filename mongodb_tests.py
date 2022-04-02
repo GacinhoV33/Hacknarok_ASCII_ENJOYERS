@@ -1,5 +1,6 @@
 from pymongo import MongoClient
 import pymongo as pm
+import pandas as pd
 
 def get_database():
 
@@ -14,8 +15,13 @@ def get_database():
 
 db = get_database()
 
-collection = db["users"]
-users_details = collection.find()
 
-for user in users_details:
-    print(user["email"])
+def get_user_subscribtions():
+    users = db["users"]
+    users_details = collection.find()
+    df = pd.DataFrame(users_details)
+    print(df.head())
+    # for user in users_details:
+    #     print(user["email"])
+
+get_user_subscribtions()
