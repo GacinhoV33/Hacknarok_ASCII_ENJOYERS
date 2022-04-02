@@ -61,6 +61,27 @@ def check_authentication():
     # Authenticate_User_Password
     return "Possible subscribtion"
 
+@app.route('/add_sub/', methods=['GET', 'POST'])
+def add_subscriprtion():
+    """
+    Function return True or False, depends on login and password is stored in database
+    :return:
+    json: #TODO specify
+    """
+    global db
+    subscribed_services = db['subscribed_services']
+    user_data = request.get_json()
+    services_array = subscribed_services.find({"email": user_data["email"]})['services']
+    services_array = services_array + user_data['services']
+    subscribed_services.inventory.updateOne( 
+        {"email": user_data["email"]},\
+        {
+            {"$set": {"services": services_array}}
+        }
+    )
+
+    return "Subscription addded"
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=105)

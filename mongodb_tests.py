@@ -17,5 +17,4 @@ db = get_database()
 collection = db["users"]
 users_details = collection.find()
 
-for user in users_details:
-    print(user["email"])
+print(users_details)
