@@ -68,12 +68,8 @@ def get_user_subscribtions():
     user_email = request.get_json()["email"]
     user_services_collection = db["subscribed_services"]
     users_details = user_services_collection.find_one({"email": user_email})["services"]
-    # user_services = pd.DataFrame(users_details)
-    # user_services = user_services[user_services["email"] == user_email]["services"]
-    # print("USER SERVICES KURWA")
-    # print(user_services.head())
+    
     list_of_user_services = list()
-
     for i, service in enumerate(users_details):
 
         service_dict = dict()
