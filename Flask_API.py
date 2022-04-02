@@ -5,6 +5,23 @@ from flask import Flask
 from flask import jsonify
 from flask import request
 
+from pymongo import MongoClient
+import pymongo as pm
+
+
+def get_database():
+
+    # Provide the mongodb atlas url to connect python to mongodb using pymongo
+    CONNECTION_STRING = "mongodb+srv://asciienjoyers:Flanki123@cluster0.fbab8.mongodb.net/test"
+
+    # Create a connection using MongoClient. You can import MongoClient or use pymongo.MongoClient
+    client = MongoClient(CONNECTION_STRING)
+
+    # Create the database for our example (we will use the same database throughout the tutorial
+    return client['SubsEnjoyers']
+
+db = get_database()
+
 app = Flask(__name__)
 @app.route('/hello/', methods=['GET', 'POST'])
 def welcome():
@@ -39,7 +56,7 @@ def check_authentication():
     json: #TODO specify
     """
     user_password = request.get_json()
-
+    print(user_password)
     # search users database for key login and check correctness of password
     # Authenticate_User_Password
     return "Possible subscribtion"
