@@ -1,0 +1,95 @@
+.modal {
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    width: 100%;
+    max-width: 900px;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
+    background-color: #f0cb95;
+    padding: 1rem;
+    text-align: center;
+    z-index: 10;
+    position: fixed;
+    top: 20vh;
+}
+
+.backdrop {
+position: fixed;
+z-index: 1;
+background-color: rgba(0, 0, 0, 0.75);
+width: 100%;
+height: 100vh;
+top: 0;
+left: 0;
+}
+
+.row{
+display: flex;
+width: 90%;
+align-items: center;
+justify-content: space-around;
+flex-direction: row;
+}
+
+  
+.modal a{
+    text-decoration: none;
+    color: #30220c;
+}
+
+.modal a:hover,
+.modal a:active{
+  color: #5c431d;
+}
+
+.service_page{
+    height: 60px;
+    width: 150px;
+    border-radius: 10px;
+    background-color: #e0ba82;
+    display: flex;
+    justify-content: center;
+}
+
+.service_page:hover{
+    background-color: #cca770;
+}
+
+.btn{
+cursor: pointer;
+  color: #30220c;
+  background-color: #e0ba82; 
+  border: none;
+  border-radius: 10px;
+  height: 60px;
+  width: 150px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+.btn:hover{
+    background-color: #cca770;
+}
+
+.btn_red{
+      cursor: pointer;
+      color: #30220c;
+      background-color: #c45a47; 
+      border: none;
+      border-radius: 10px;
+      height: 60px;
+      width: 150px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+    }
+    
+    .btn_red:hover{
+        background-color: #ba4f3c;
+    }

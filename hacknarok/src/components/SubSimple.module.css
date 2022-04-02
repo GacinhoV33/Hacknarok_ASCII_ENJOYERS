@@ -1,0 +1,39 @@
+.sub{
+    width: 100%;
+    max-width: 900px;
+    min-height: 100px;
+    border-radius: 20px;
+    background-color: #947547;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.sub:hover{
+    background-color: #bd9b68;
+}
+
+.comp_name{
+    color: #271c2b;
+    font-size: 20px;
+    font-weight: bold;
+    width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.amount{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+}
+
+.period{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 250px;
+}
