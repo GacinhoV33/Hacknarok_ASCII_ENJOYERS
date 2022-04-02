@@ -48,6 +48,28 @@ def get_subscribtion_from_firm():
     # get_associated_subscribtion()
     return "Possible subscribtion"
 
+@app.route('/add_sub/', methods=['GET', 'POST'])
+def add_subscriprtion():
+    """
+    Function return True or False, depends on login and password is stored in database
+    :return:
+    json: #TODO specify
+    """
+    global db
+    subscribed_services = db['subscribed_services']
+    user_data = request.get_json()
+    services_array = subscribed_services.find_one({"email": user_data["email"]})['services']
+    print(services_array)
+    services_array = services_array + user_data["services"]
+    print("Started adding: ", services_array, "for: ", user_data["email"])
+    db['subscribed_services'].inventory.update_one(
+        {"email": str(user_data["email"])},
+        {"$set": {"services": services_array}}
+    )
+    print("Finished adding")
+    return "Subscription addded"
+
+
 @app.route('/auth/', methods=['GET', 'POST'])
 def check_authentication():
     """
@@ -61,27 +83,42 @@ def check_authentication():
     # Authenticate_User_Password
     return "Possible subscribtion"
 
+
 @app.route('/add_sub/', methods=['GET', 'POST'])
-def add_subscriprtion():
-    """
-    Function return True or False, depends on login and password is stored in database
-    :return:
-    json: #TODO specify
-    """
-    global db
-    subscribed_services = db['subscribed_services']
-    user_data = request.get_json()
-    services_array = subscribed_services.find({"email": user_data["email"]})['services']
-    services_array = services_array + user_data['services']
-    subscribed_services.inventory.updateOne( 
-        {"email": user_data["email"]},\
-        {
-            {"$set": {"services": services_array}}
-        }
-    )
+# def add_subscriprtion():
+#     """
+#     Function return True or False, depends on login and password is stored in database
+#     :return:
+#     json: #TODO specify
+#     """
+#     global db
+#     subscribed_services = db['subscribed_services']
+#     user_data = request.get_json()
+#     services_array = subscribed_services.find_one({"email": user_data["email"]})['services']
+#     services_array = services_array + user_data['services']
+#     print(services_array)
+#     x = subscribed_services.inventory.find_one({"email" : user_data["email"]}
+#     )
+#     print(x)
+#     return "Subscription addded"
 
-    return "Subscription addded"
-
+@app.route('/firm_with_subs/', methods=['GET', 'POST'])
+def get_firmnames_and_subtype():
+    """
+    This request returns all firms and subscriptions
+    """
+    services = db["available_services"]
+    json = list()
+    print([service for service in services.find()])
+    for service in services.find():
+        print(service)
+        dict_serv = {
+                    "name" : service["name"],
+                    "plans" : service["subs_models"]
+                     }
+        json.append(dict_serv)
+    print(json)
+    return {"lista": json}
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=105)
