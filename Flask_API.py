@@ -40,7 +40,7 @@ def incrementer():
 @app.route('/subscribtion/', methods=['GET', 'POST'])
 def get_subscribtion_from_firm():
     """
-    This request gets name of the firm from json and return json file with subscribtion types
+    This request gets name of the firm from json and return json file with subscription types
 
     """
     subscribition_json = request.get_json()
@@ -71,15 +71,15 @@ def add_subscriprtion():
     global db
     subscribed_services = db['subscribed_services']
     user_data = request.get_json()
-    services_array = subscribed_services.find({"email": user_data["email"]})['services']
-    services_array = services_array + user_data['services']
-    subscribed_services.inventory.updateOne( 
-        {"email": user_data["email"]},\
-        {
-            {"$set": {"services": services_array}}
-        }
+    services_array = subscribed_services.find_one({"email": user_data["email"]})['services']
+    print(services_array)
+    services_array = services_array + user_data["services"]
+    print("Started adding: ", services_array, "for: ", user_data["email"])
+    db["subscribed_services"].update_one(
+        {"email": str(user_data["email"])},
+        {"$set": {"services": services_array}}
     )
-
+    print("Finished adding")
     return "Subscription addded"
 
 
