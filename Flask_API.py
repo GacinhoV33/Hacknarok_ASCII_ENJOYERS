@@ -10,6 +10,8 @@ import pymongo as pm
 
 import pandas as pd
 
+import datetime
+
 def get_database():
 
     # Provide the mongodb atlas url to connect python to mongodb using pymongo
@@ -68,7 +70,7 @@ def get_user_subscribtions():
     user_email = request.get_json()["email"]
     user_services_collection = db["subscribed_services"]
     users_details = user_services_collection.find_one({"email": user_email})["services"]
-    
+
     list_of_user_services = list()
     for i, service in enumerate(users_details):
 
@@ -104,6 +106,33 @@ def add_subscriprtion():
     print("Finished adding")
     return "Subscription addded"
 
+@app.route('/firm_with_subs/', methods=['GET', 'POST'])
+def get_firm_names_and_subtype():
+    """
+    This request returns all firms and subscriptions
+    """
+    services = db["available_services"]
+    json = list()
+    
+    for service in services.find():
+        dict_serv = {
+                    "name" : service["name"],
+                    "plans" : service["subs_models"]
+                     }
+        json.append(dict_serv)
+    return {"lista": json}
+
+
+
+# def update_billings():
+#     user_email = request.get_json()["email"]
+#     todays_date = datetime.date.today()   
+#     user_services_collection = db["subscribed_services"]
+#     users_details = user_services_collection.find_one({"email": user_email})["services"]
+    
+#     for service in users_details:
+        
+#         if pd.to_datetime(service["start_date"]):
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=105)
